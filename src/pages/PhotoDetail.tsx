@@ -9,7 +9,7 @@ const PhotoDetail = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
   const photo = photos.photos.find(p => p.id === id);
-
+  
   if (!photo) {
     return (
       <div className="min-h-screen bg-[#0F0F1A] flex items-center justify-center">

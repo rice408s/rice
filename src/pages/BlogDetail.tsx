@@ -118,12 +118,10 @@ export function BlogDetail() {
           as: 'raw'
         });
 
-        console.log('Current slug:', slug);
-        console.log('Available files:', Object.keys(markdownFiles));
+   
 
         const filePath = Object.keys(markdownFiles).find(path => {
           const fileName = path.split('/').pop()?.replace('.md', '');
-          console.log('Comparing:', fileName, 'with:', slug);
           return fileName === slug;
         });
 
@@ -183,7 +181,6 @@ export function BlogDetail() {
           content: markdown.trim()
         });
 
-        console.log('Successfully loaded post:', metadata.title);
       } catch (err) {
         console.error('Failed to load post:', err);
         setError(err instanceof Error ? err.message : 'Failed to load post');

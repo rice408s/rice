@@ -45,18 +45,15 @@ export function BlogList(): JSX.Element {
           as: 'raw'
         });
         
-        console.log('Available markdown files:', Object.keys(markdownFiles));
         
         const loadedPosts = Object.entries(markdownFiles).map(([path, content]) => {
           try {
             const fileName = path.split('/').pop()?.replace('.md', '');
             if (!fileName) return null;
 
-            console.log('Processing file:', fileName);
             
             const match = (content as string).match(/^---[\r\n]+([\s\S]*?)[\r\n]+---/);
             if (!match) {
-              console.log('No frontmatter found in:', fileName);
               return null;
             }
 
@@ -89,7 +86,6 @@ export function BlogList(): JSX.Element {
               frontmatter.tags = [];
             }
 
-            console.log('Parsed frontmatter:', frontmatter);
 
             return {
               ...frontmatter,
@@ -106,7 +102,6 @@ export function BlogList(): JSX.Element {
           .filter((post): post is Post => post !== null)
           .sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
 
-        console.log('Final posts:', validPosts);
         setPosts(validPosts);
       } catch (error) {
         console.error('Failed to load posts:', error);
