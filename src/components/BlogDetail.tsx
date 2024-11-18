@@ -1,21 +1,33 @@
-function getProxiedImageUrl(url: string): string {
-  // 使用图片代理服务，比如 images.weserv.nl
-  return `https://images.weserv.nl/?url=${encodeURIComponent(url)}`;
+import type { DetailedHTMLProps, ImgHTMLAttributes } from 'react';
+import { getProxiedImageUrl } from '../utils/image';
+
+// 定义 ImageProps 接口
+interface ImageProps extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
+  node?: any;
 }
 
-img: ({ node, ...props }: ImageProps) => {
-  return (
-    <figure className="my-8">
-      <img 
-        {...props} 
-        src={getProxiedImageUrl(props.src || '')}
-        className="rounded-lg shadow-xl w-full" 
-      />
-      {props.alt && (
-        <figcaption className="mt-2 text-center text-sm text-white/40">
-          {props.alt}
-        </figcaption>
-      )}
-    </figure>
-  );
-} 
+// 组件代码
+function BlogDetail() {
+  // ...其他代码...
+
+  return {
+    img: ({ node, ...props }: ImageProps) => {
+      return (
+        <figure className="my-8">
+          <img 
+            {...props} 
+            src={getProxiedImageUrl(props.src || '')}
+            className="rounded-lg shadow-xl w-full" 
+          />
+          {props.alt && (
+            <figcaption className="mt-2 text-center text-sm text-white/40">
+              {props.alt}
+            </figcaption>
+          )}
+        </figure>
+      );
+    }
+  };
+}
+
+export default BlogDetail; 
