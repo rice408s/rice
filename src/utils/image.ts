@@ -1,18 +1,12 @@
-export function getProxiedImageUrl(url: string): string {
+export function getProxiedImageUrl(originalUrl: string): string {
+  if (!originalUrl) return '';
+  
   // 如果已经是 HTTPS，直接返回
-  if (url.startsWith('https://')) {
-    return url;
+  if (originalUrl.startsWith('https://')) {
+    return originalUrl;
   }
   
-  // 移除 http:// 前缀
-  const cleanUrl = url.replace(/^http:\/\//, '');
-  
-  // 方案1：使用 images.weserv.nl
-  return `https://images.weserv.nl/?url=http://${cleanUrl}`;
-  
-  // 方案2：使用 wsrv.nl
-  // return `https://wsrv.nl/?url=http://${cleanUrl}`;
-  
-  // 方案3：使用 imageproxy.org
-  // return `https://imageproxy.org/v1/?url=http://${cleanUrl}`;
+  // 使用 Vercel 的图片代理服务
+  const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(originalUrl)}`;
+  return proxyUrl;
 } 
