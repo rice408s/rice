@@ -5,6 +5,7 @@ import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Link } from 'react-router-dom';
+import { getProxiedImageUrl } from '../utils/image';
 
 interface Post {
   title: string;
@@ -355,7 +356,22 @@ export function BlogDetail() {
                 img: ({ node, ...props }: ImageProps) => {
                   return (
                     <figure className="my-8">
-                      <img {...props} className="rounded-lg shadow-xl w-full" />
+                      <img 
+                        {...props} 
+                        src={getProxiedImageUrl(props.src || '')}
+                        className="rounded-lg shadow-xl w-full" 
+                        loading="lazy"
+                        onError={(e) => {
+                          const img = e.currentTarget;
+                          if (!img.dataset.retried) {
+                            img.dataset.retried = 'true';
+                            const originalUrl = new URL(img.src).searchParams.get('url');
+                            if (originalUrl) {
+                              img.src = originalUrl;
+                            }
+                          }
+                        }}
+                      />
                       {props.alt && (
                         <figcaption className="mt-2 text-center text-sm text-white/40">
                           {props.alt}

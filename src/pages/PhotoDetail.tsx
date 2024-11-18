@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import photos from '../assets/images/photos.json';
+import { getProxiedImageUrl } from '../utils/image';
 
 const PhotoDetail = () => {
   const { id } = useParams();
@@ -64,10 +65,20 @@ const PhotoDetail = () => {
                 cursor-pointer"
             >
               <img 
-                src={url}
+                src={getProxiedImageUrl(url)}
                 alt={`${photo.title} ${index + 1}`}
                 className="w-full h-full object-cover"
                 loading="lazy"
+                onError={(e) => {
+                  const img = e.currentTarget;
+                  if (!img.dataset.retried) {
+                    img.dataset.retried = 'true';
+                    const originalUrl = new URL(img.src).searchParams.get('url');
+                    if (originalUrl) {
+                      img.src = originalUrl;
+                    }
+                  }
+                }}
               />
             </div>
           ))}
@@ -94,9 +105,19 @@ const PhotoDetail = () => {
           onClick={() => setSelectedImageIndex(null)}
         >
           <img
-            src={photo.urls[selectedImageIndex]}
+            src={getProxiedImageUrl(photo.urls[selectedImageIndex])}
             alt={photo.title}
             className="max-w-full max-h-[90vh] object-contain"
+            onError={(e) => {
+              const img = e.currentTarget;
+              if (!img.dataset.retried) {
+                img.dataset.retried = 'true';
+                const originalUrl = new URL(img.src).searchParams.get('url');
+                if (originalUrl) {
+                  img.src = originalUrl;
+                }
+              }
+            }}
           />
           
           {photo.urls.length > 1 && (
