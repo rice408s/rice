@@ -1,4 +1,4 @@
-import React from 'react';
+// 如果不需要使用 React，删除导入
 
 interface PageTitleProps {
   title: string;
