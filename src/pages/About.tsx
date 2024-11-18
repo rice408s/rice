@@ -2,6 +2,17 @@ import { Card, CardBody } from "@nextui-org/react";
 import { useEffect, useRef } from "react";
 import { PageTitle } from '../components/common/PageTitle';
 
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  radius: number;
+  color: string;
+  draw: () => void;
+  update: (canvas: HTMLCanvasElement) => void;
+}
+
 const About = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -12,16 +23,7 @@ const About = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     
-    let particles: Array<{
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      radius: number;
-      color: string;
-      draw: () => void;
-      update: () => void;
-    }> = [];
+    let particles: Particle[] = [];
     
     const resizeCanvas = () => {
       if (canvas) {
@@ -33,20 +35,17 @@ const About = () => {
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    class Particle {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      radius: number;
-      color: string;
+    class ParticleClass implements Particle {
+      x: number = 0;
+      y: number = 0;
+      vx: number = 0;
+      vy: number = 0;
+      radius: number = 0;
+      color: string = '';
 
-      constructor() {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        
-        this.x = Math.random() * (canvas?.width ?? 0);
-        this.y = Math.random() * (canvas?.height ?? 0);
+      constructor(canvas: HTMLCanvasElement) {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
         this.vx = Math.random() * 1 - 0.5;
         this.vy = Math.random() * 1 - 0.5;
         this.radius = Math.random() * 1.5;
@@ -54,20 +53,14 @@ const About = () => {
       }
 
       draw() {
-        const canvas = canvasRef.current;
-        const ctx = canvas?.getContext('2d');
-        if (!ctx || !canvas) return;
-        
+        if (!ctx) return;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fillStyle = this.color;
         ctx.fill();
       }
 
-      update() {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        
+      update(canvas: HTMLCanvasElement) {
         this.x += this.vx;
         this.y += this.vy;
 
@@ -77,14 +70,14 @@ const About = () => {
     }
 
     for (let i = 0; i < 50; i++) {
-      particles.push(new Particle());
+      particles.push(new ParticleClass(canvas));
     }
 
     const animate = () => {
-      if (!ctx) return;
+      if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(particle => {
-        particle.update();
+        particle.update(canvas);
         particle.draw();
       });
       requestAnimationFrame(animate);

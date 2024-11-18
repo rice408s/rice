@@ -24,15 +24,12 @@ export function MainNavbar() {
           <Link to="/" className="group relative">
             <div className="relative flex items-center gap-2">
               <div className="relative">
-                <span className="text-lg font-mono text-white/80 tracking-wider group-hover:text-white transition-colors duration-500">
+                <span className="text-lg font-sans text-white/80 tracking-wider group-hover:text-white transition-colors duration-500 font-['LXGW_WenKai']">
                   白干饭
                 </span>
                 <div className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent 
                   origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
               </div>
-              <span className="text-xs text-white/40 font-mono tracking-wider group-hover:text-white/60 transition-colors duration-500">
-                {'echo "Hello World"'}
-              </span>
             </div>
           </Link>
           
@@ -60,7 +57,7 @@ export function MainNavbar() {
               >
                 <div className="relative flex items-center gap-2">
                   <div className="relative">
-                    <span className="text-sm font-mono text-white/60 tracking-wider group-hover:text-white transition-colors duration-500 flex items-center gap-2">
+                    <span className="text-sm font-['LXGW_WenKai'] text-white/60 tracking-wider group-hover:text-white transition-colors duration-500 flex items-center gap-2">
                       <span className="text-base">{item.icon}</span>
                       {item.name}
                     </span>
@@ -90,7 +87,7 @@ export function MainNavbar() {
               >
                 <span className="flex items-center gap-3">
                   <span className="text-lg">{item.icon}</span>
-                  <span className="font-mono tracking-wide">{item.name}</span>
+                  <span className="font-['LXGW_WenKai'] tracking-wide">{item.name}</span>
                 </span>
               </Link>
             ))}

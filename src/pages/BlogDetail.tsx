@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container } from '../components/common/Container';
-import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -87,8 +85,21 @@ interface CodeProps {
   node?: any;
   inline?: boolean;
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   style?: React.CSSProperties;
+}
+
+interface ParagraphProps {
+  node?: any;
+  children?: React.ReactNode;
+  [key: string]: any;
+}
+
+interface ImageProps {
+  node?: any;
+  alt?: string;
+  src?: string;
+  [key: string]: any;
 }
 
 export function BlogDetail() {
@@ -277,7 +288,7 @@ export function BlogDetail() {
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
-                code({node, inline, className, children, ...props}: CodeProps) {
+                code: ({ node, inline, className, children, ...props }: CodeProps) => {
                   const match = /language-(\w+)/.exec(className || '');
                   const code = String(children).replace(/\n$/, '');
                   
@@ -332,7 +343,7 @@ export function BlogDetail() {
                     </code>
                   );
                 },
-                p({node, children, ...props}) {
+                p: ({ node, children, ...props }: ParagraphProps) => {
                   const hasOnlyImg = node?.children?.length === 1 && node?.children[0].type === 'element' && node?.children[0].tagName === 'img';
                   
                   if (hasOnlyImg) {
@@ -341,7 +352,7 @@ export function BlogDetail() {
                   
                   return <p {...props}>{children}</p>;
                 },
-                img({node, ...props}) {
+                img: ({ node, ...props }: ImageProps) => {
                   return (
                     <figure className="my-8">
                       <img {...props} className="rounded-lg shadow-xl w-full" />

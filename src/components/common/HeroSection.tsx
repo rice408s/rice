@@ -1,7 +1,6 @@
 import { Button } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import { RecentBlogs } from '../RecentBlogs';
 
 interface Particle {
   x: number;
@@ -11,7 +10,7 @@ interface Particle {
   radius: number;
   color: string;
   draw: () => void;
-  update: () => void;
+  update: (canvas: HTMLCanvasElement) => void;
 }
 
 export function HeroSection() {
@@ -37,14 +36,14 @@ export function HeroSection() {
     resizeCanvas();
 
     class ParticleClass implements Particle {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      radius: number;
-      color: string;
+      x: number = 0;
+      y: number = 0;
+      vx: number = 0;
+      vy: number = 0;
+      radius: number = 0;
+      color: string = '';
 
-      constructor() {
+      constructor(canvas: HTMLCanvasElement) {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.vx = Math.random() * 1 - 0.5;
@@ -61,7 +60,7 @@ export function HeroSection() {
         ctx.fill();
       }
 
-      update() {
+      update(canvas: HTMLCanvasElement) {
         this.x += this.vx;
         this.y += this.vy;
 
@@ -71,14 +70,14 @@ export function HeroSection() {
     }
 
     for (let i = 0; i < 50; i++) {
-      particles.push(new ParticleClass());
+      particles.push(new ParticleClass(canvas));
     }
 
     const animate = () => {
-      if (!ctx) return;
+      if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(particle => {
-        particle.update();
+        particle.update(canvas);
         particle.draw();
       });
       requestAnimationFrame(animate);
@@ -118,7 +117,7 @@ export function HeroSection() {
                 <span className="font-mono text-indigo-400">/&gt;</span>
               </h1>
               
-              <p className="text-white/50 font-mono text-base md:text-lg max-w-2xl mx-auto leading-loose">
+              <p className="text-white/50 font-sans text-base md:text-lg max-w-2xl mx-auto leading-loose tracking-wide">
                 在代码与生活的交织处，寻找平行世界的另一种可能
               </p>
 
@@ -128,7 +127,7 @@ export function HeroSection() {
                   to="/blogs"
                   className="group relative px-8 py-3 bg-white/[0.02] border border-white/[0.05] hover:border-indigo-500/30 transition-all duration-500"
                 >
-                  <span className="relative z-10 flex items-center gap-2 text-white/80">
+                  <span className="relative z-10 flex items-center gap-2 text-white/80 font-sans tracking-wide">
                     博客
                     <span className="group-hover:translate-x-1 transition-transform duration-300">
                       →
@@ -141,7 +140,7 @@ export function HeroSection() {
                   to="/about"
                   className="group relative px-8 py-3 bg-white/[0.02] border border-white/[0.05] hover:border-indigo-500/30 transition-all duration-500"
                 >
-                  <span className="relative z-10 flex items-center gap-2 text-white/80">
+                  <span className="relative z-10 flex items-center gap-2 text-white/80 font-sans tracking-wide">
                     关于
                     <span className="group-hover:translate-x-1 transition-transform duration-300">
                       →
