@@ -18,6 +18,14 @@ function BlogDetail() {
             {...props} 
             src={getProxiedImageUrl(props.src || '')}
             className="rounded-lg shadow-xl w-full" 
+            loading="lazy"
+            onError={(e) => {
+              const img = e.currentTarget;
+              if (!img.dataset.retried) {
+                img.dataset.retried = 'true';
+                img.src = img.src.replace('/proxy-image/', 'http://');
+              }
+            }}
           />
           {props.alt && (
             <figcaption className="mt-2 text-center text-sm text-white/40">

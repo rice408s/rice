@@ -3,6 +3,7 @@ import { Modal } from "@nextui-org/react";
 import photos from '../assets/images/photos.json';
 import { useNavigate } from 'react-router-dom';
 import { PageTitle } from '../components/common/PageTitle';
+import { getProxiedImageUrl } from '../utils/image';
 
 interface Photo {
   id: string;
@@ -11,14 +12,6 @@ interface Photo {
   description: string;
   category: string;
   created: string;
-}
-
-// 添加相同的工具函数
-function ensureHttps(url: string): string {
-  if (url.startsWith('http://')) {
-    return url.replace('http://', 'https://');
-  }
-  return url;
 }
 
 const Gallery = () => {
@@ -97,8 +90,15 @@ const Gallery = () => {
               <img
                 alt={photo.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                src={ensureHttps(photo.urls[0])}
+                src={getProxiedImageUrl(photo.urls[0])}
                 loading="lazy"
+                onError={(e) => {
+                  const img = e.currentTarget;
+                  if (!img.dataset.retried) {
+                    img.dataset.retried = 'true';
+                    img.src = img.src.replace('/proxy-image/', 'http://');
+                  }
+                }}
               />
               {/* 渐变遮罩和信息 */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent 
