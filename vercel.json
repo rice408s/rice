@@ -9,11 +9,5 @@
         }
       ]
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/proxy-image/:url*",
-      "destination": "http://:url*"
-    }
   ]
 } 

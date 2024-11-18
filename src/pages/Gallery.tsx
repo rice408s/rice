@@ -96,7 +96,10 @@ const Gallery = () => {
                   const img = e.currentTarget;
                   if (!img.dataset.retried) {
                     img.dataset.retried = 'true';
-                    img.src = img.src.replace('/proxy-image/', 'http://');
+                    const originalUrl = new URL(img.src).searchParams.get('url');
+                    if (originalUrl) {
+                      img.src = originalUrl;
+                    }
                   }
                 }}
               />
