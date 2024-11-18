@@ -13,6 +13,14 @@ interface Photo {
   created: string;
 }
 
+// 添加相同的工具函数
+function ensureHttps(url: string): string {
+  if (url.startsWith('http://')) {
+    return url.replace('http://', 'https://');
+  }
+  return url;
+}
+
 const Gallery = () => {
   const navigate = useNavigate();
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
@@ -89,7 +97,7 @@ const Gallery = () => {
               <img
                 alt={photo.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                src={photo.urls[0]}
+                src={ensureHttps(photo.urls[0])}
                 loading="lazy"
               />
               {/* 渐变遮罩和信息 */}
