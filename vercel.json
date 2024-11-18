@@ -5,7 +5,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "upgrade-insecure-requests"
+          "value": "img-src * data: blob:; upgrade-insecure-requests"
         }
       ]
     }

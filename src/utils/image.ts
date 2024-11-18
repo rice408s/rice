@@ -4,11 +4,15 @@ export function getProxiedImageUrl(url: string): string {
     return url;
   }
   
-  // 在开发环境中使用原始 URL
-  if (process.env.NODE_ENV === 'development') {
-    return url;
-  }
+  // 移除 http:// 前缀
+  const cleanUrl = url.replace(/^http:\/\//, '');
   
-  // 在生产环境中使用 Edge Function 代理
-  return `/api/proxy-image?url=${encodeURIComponent(url)}`;
+  // 方案1：使用 images.weserv.nl
+  return `https://images.weserv.nl/?url=http://${cleanUrl}`;
+  
+  // 方案2：使用 wsrv.nl
+  // return `https://wsrv.nl/?url=http://${cleanUrl}`;
+  
+  // 方案3：使用 imageproxy.org
+  // return `https://imageproxy.org/v1/?url=http://${cleanUrl}`;
 } 
