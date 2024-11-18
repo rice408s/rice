@@ -93,7 +93,7 @@ const PhotoDetail = () => {
               transition-all duration-300 rounded-lg inline-flex items-center gap-3"
           >
             <span className="text-lg">←</span>
-            <span>返回相册</span>
+            <span>返回��册</span>
           </button>
         </div>
       </div>
@@ -129,7 +129,7 @@ const PhotoDetail = () => {
                     prev !== null ? (prev === 0 ? photo.urls.length - 1 : prev - 1) : 0
                   );
                 }}
-                className="absolute left-4 p-4 rounded-full bg-black/50 text-white/80"
+                className="absolute left-4 p-4 rounded-full bg-black/50 text-white/80 hidden md:block"
               >
                 ←
               </button>
@@ -140,7 +140,7 @@ const PhotoDetail = () => {
                     prev !== null ? (prev === photo.urls.length - 1 ? 0 : prev + 1) : 0
                   );
                 }}
-                className="absolute right-4 p-4 rounded-full bg-black/50 text-white/80"
+                className="absolute right-4 p-4 rounded-full bg-black/50 text-white/80 hidden md:block"
               >
                 →
               </button>
