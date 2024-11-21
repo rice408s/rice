@@ -72,15 +72,15 @@ export function Footer() {
 
             {/* 版权信息 */}
             <div className="text-right">
-              <div className="text-white/40 font-mono text-sm tracking-wider space-y-1">
-                <div>© {currentYear} All Rights Reserved</div>
+              <div className="text-center text-xs text-white/30 space-y-2">
+                <div>© 2024 All Rights Reserved</div>
                 <a 
                   href="https://beian.miit.gov.cn/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="hover:text-white/60 transition-colors duration-300"
+                  className="hover:text-white/50 transition-colors duration-300"
                 >
-                  蜀ICP备2023035130号
+                  蜀ICP备2023035130号-1
                 </a>
               </div>
             </div>
